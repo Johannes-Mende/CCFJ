@@ -11,6 +11,9 @@ public class CharackterConroller : MonoBehaviour
     private Rigidbody2D rb;
     Vector2 movement;
 
+    public float attackRate = 1f;
+    float nextAttackTime = 0f;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -39,13 +42,17 @@ public class CharackterConroller : MonoBehaviour
     private void FixedUpdate()
     {
         rb.MovePosition(rb.position + movement * MovementSpeed * Time.fixedDeltaTime);
-
-        if (dashButtonDown)
+        if (Time.time >= nextAttackTime)
         {
-            float dashAmount = 100f;
-            rb.MovePosition(rb.position + movement * Time.fixedDeltaTime * dashAmount);
-            dashButtonDown = false;
-        }
+            if (dashButtonDown)
+            {
+                float dashAmount = 100f;
+                rb.MovePosition(rb.position + movement * Time.fixedDeltaTime * dashAmount);
+                dashButtonDown = false;
+                nextAttackTime = Time.time + 1f / attackRate;
+            }
+        }    
+
     }
 
     private void Flip()

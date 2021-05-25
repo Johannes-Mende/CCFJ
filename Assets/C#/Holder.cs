@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class Holder : MonoBehaviour
 {
-    public List<Item> Items = new List<Item>();
+    public List<Item> HolderItems = new List<Item>();
 }

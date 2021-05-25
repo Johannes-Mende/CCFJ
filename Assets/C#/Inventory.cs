@@ -5,5 +5,5 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     public int MaxCountInv = 10;
-    public List<Item> Items = new List<Item>();
+    public List<Item> InvItems = new List<Item>();
 }

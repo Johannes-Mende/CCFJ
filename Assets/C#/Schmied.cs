@@ -2,14 +2,63 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*[Serializable]
+public struct BotStruct
+{
+    public int Rarity;
+    public int RarityCount;
+}*/
 public class Schmied : MonoBehaviour
 {
+    public int finalItemRarity;
+    public int slot = 0;
+    public List<int> RarityPot = new List<int>();
+    public List<Item> SlotList = new List<Item>();
 
-    void Herstellen()
+    void Update()
     {
-        //Zufaellige waffe herausfinden 
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Craft();
+        }
+    }
 
-        //Waffe ins Inventar Legen
+
+    public void Craft()
+    {
+        Debug.Log("Craft");
+        for(int ii = 0; ii < 3; ii++)
+        {
+            for (int i = 0; i < SlotList[slot].RarityCount; i++)
+            {
+                RarityPot.Add(SlotList[slot].Rarity);
+            }
+            slot++;
+        }
+
+        finalItemRarity = Random.Range(0 , RarityPot.Count + 1);
+        slot = 0;
+        switch (RarityPot[finalItemRarity])
+        {
+            case 1:
+                Debug.Log("1");
+                //Random.Range(0, Rarity1Items.Count + 1);
+                break;
+            case 2:
+                Debug.Log("2");
+                //Random.Range(0, Rarity2Items.Count + 1);
+                break;
+            case 3:
+                Debug.Log("3");
+                // Random.Range(0, Rarity3Items.Count + 1);
+                break;
+            case 4:
+                // Random.Range(0, Rarity4Items.Count + 1);
+                break;
+            case 5:
+                // Random.Range(0, Rarity5Items.Count + 1);
+                break;
+        }
     }
 
 }
