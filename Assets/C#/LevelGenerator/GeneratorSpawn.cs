@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,6 +24,7 @@ public class GeneratorSpawn : MonoBehaviour
 
     public void SpawnRoomStart()
     {
+        needTop = false; needRight = false; needBottom = false; needLeft = false;
         //Check sides
         CheckSides();
         //Choose Prefab
@@ -40,7 +42,6 @@ public class GeneratorSpawn : MonoBehaviour
 
         if(colTop.Length > 0)
         {
-            print("TOOOOP");
             if (colTop[0].GetComponent<RoomInfo>().doorBottom)
             {
                 needTop = true;
@@ -72,31 +73,55 @@ public class GeneratorSpawn : MonoBehaviour
 
     void ChooseRoom()
     {
-        string roomDoorInfo = "T"+needTop.ToString() + "R"+needRight.ToString() + "B"+needBottom.ToString() + "L"+needLeft.ToString();
+        int needTopI = Convert.ToInt32(needTop);
+        int needRightI = Convert.ToInt32(needRight);
+        int needBottomI = Convert.ToInt32(needBottom);
+        int needLeftI = Convert.ToInt32(needLeft);
+        string roomDoorInfo = needTopI.ToString() + needRightI.ToString() + needBottomI.ToString() + needLeftI.ToString();
 
-        switch (roomDoorInfo)
+        switch (roomDoorInfo)// TopRightBottomLeft
         {
-            case "TFalseRFalseBFalseLFalse":
+            case "0000":
                 shouldSpawn = false;
                 break;
-            case "TTrueRFalseBFalseLFalse":
-                random = Random.Range(0, templates.topRooms.Length);
+            case "1000":
+                random = UnityEngine.Random.Range(0, templates.topRooms.Length);
                 spawnRoom = templates.topRooms[random];
                 shouldSpawn = true;
                 break;
-            case "TFalseRTrueBFalseLFalse":
-                random = Random.Range(0, templates.rightRooms.Length);
+            case "0100":
+                random = UnityEngine.Random.Range(0, templates.rightRooms.Length);
                 spawnRoom = templates.rightRooms[random];
                 shouldSpawn = true;
                 break;
-            case "TFalseRFalseBTrueLFalse":
-                random = Random.Range(0, templates.bottomRooms.Length);
+            case "0010":
+                random = UnityEngine.Random.Range(0, templates.bottomRooms.Length);
                 spawnRoom = templates.bottomRooms[random];
                 shouldSpawn = true;
                 break;
-            case "TFalseRFalseBFalseLTrue":
-                random = Random.Range(0, templates.leftRooms.Length);
+            case "0001":
+                random = UnityEngine.Random.Range(0, templates.leftRooms.Length);
                 spawnRoom = templates.leftRooms[random];
+                shouldSpawn = true;
+                break;
+            case "1100":
+                random = UnityEngine.Random.Range(0, templates.topRightRooms.Length);
+                spawnRoom = templates.topRightRooms[random];
+                shouldSpawn = true;
+                break;
+            case "0110":
+                random = UnityEngine.Random.Range(0, templates.rightBottomRooms.Length);
+                spawnRoom = templates.rightBottomRooms[random];
+                shouldSpawn = true;
+                break;
+            case "0011":
+                random = UnityEngine.Random.Range(0, templates.bottomLeftRooms.Length);
+                spawnRoom = templates.bottomLeftRooms[random];
+                shouldSpawn = true;
+                break;
+            case "1001":
+                random = UnityEngine.Random.Range(0, templates.leftTopRooms.Length);
+                spawnRoom = templates.leftTopRooms[random];
                 shouldSpawn = true;
                 break;
         }

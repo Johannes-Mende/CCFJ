@@ -7,7 +7,6 @@ public class GeneratorMove : MonoBehaviour
     private GeneratorSpawn genSpawn;
     
     private Transform bodyGen;
-    private Vector3 newPos;
 
     private int unit = 10;
     private Vector3 maxTop, maxLeft, maxDown, maxRight;
@@ -36,8 +35,9 @@ public class GeneratorMove : MonoBehaviour
         }
     }
 
-    void Setdirection()
+    Vector3 Setdirection()
     {
+        Vector3 newPos = new Vector3();
         Vector3 moveUpV = new Vector3(0,unit, 0);
         Vector3 moveLeftV = new Vector3(-unit, 0, 0);
         Vector3 moveDownV = new Vector3(0,-unit, 0);
@@ -59,14 +59,14 @@ public class GeneratorMove : MonoBehaviour
         {
             newPos = moveRightV;
         }
+        return newPos;
     }
 
     public void MoveGen()
     {
         if (move)
         {
-            Setdirection();
-            bodyGen.position = bodyGen.position + newPos;
+            bodyGen.position = bodyGen.position + Setdirection();
             Invoke("CheckMax", 0.1f);
             genSpawn.SpawnRoomStart();
         }

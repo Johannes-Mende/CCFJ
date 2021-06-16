@@ -13,5 +13,6 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         access = this;
+        DontDestroyOnLoad(gameObject);
     }
 }
