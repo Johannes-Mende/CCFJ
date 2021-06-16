@@ -1,26 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class Schmied : MonoBehaviour
+
+public class GameLogic : MonoBehaviour
 {
+    public Inventory INV;
+    public Player P;
+
+    //Schmied
     public int finalItemRarity;
     public int slot = 0;
-    public List<int> RarityPot = new List<int>();
+    private List<int> RarityPot = new List<int>();
     public List<Item> SlotList = new List<Item>();
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Craft();
-        }
-    }
-
-
-    public void Craft()
+    public void SmithCraft()
     {
         Debug.Log("Craft");
-        for(int ii = 0; ii < 3; ii++)
+        for (int ii = 0; ii < 3; ii++)
         {
             for (int i = 0; i < SlotList[slot].RarityCount; i++)
             {
@@ -29,7 +25,7 @@ public class Schmied : MonoBehaviour
             slot++;
         }
 
-        finalItemRarity = Random.Range(0 , RarityPot.Count + 1);
+        finalItemRarity = Random.Range(0, RarityPot.Count + 1);
         slot = 0;
         switch (RarityPot[finalItemRarity])
         {
@@ -53,5 +49,4 @@ public class Schmied : MonoBehaviour
                 break;
         }
     }
-
 }

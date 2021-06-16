@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharackterConroller : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     public float MovementSpeed = 2f;
 
-    private bool dashButtonDown;
+    public bool dashButtonDown;
     private bool facingRight = true;
     private Rigidbody2D rb;
-    Vector2 movement;
 
-    public float attackRate = 1f;
-    float nextAttackTime = 0f;
+    public float dashRate = 1f;
+    float nextDashTime = 0f;
 
     void Start()
     {
@@ -21,19 +20,12 @@ public class CharackterConroller : MonoBehaviour
 
     void Update()
     {
-        movement.x = Input.GetAxis("Horizontal");
-        movement.y = Input.GetAxis("Vertical");
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            dashButtonDown = true;
-        }
-
-        if (movement.x > 0 && !facingRight)
+        if (GameManager.access.IK.movementX > 0 && !facingRight)
         {
             Flip();
         }
-        else if (movement.x < 0 && facingRight)
+        else if (GameManager.access.IK.movementX < 0 && facingRight)
         {
             Flip();
         }
@@ -41,15 +33,17 @@ public class CharackterConroller : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.MovePosition(rb.position + movement * MovementSpeed * Time.fixedDeltaTime);
-        if (Time.time >= nextAttackTime)
+        Vector2 V2 = new Vector2(GameManager.access.IK.movementX, GameManager.access.IK.movementY);
+        rb.MovePosition(rb.position + V2 * MovementSpeed * Time.fixedDeltaTime);
+
+        if (Time.time >= nextDashTime)
         {
             if (dashButtonDown)
             {
                 float dashAmount = 100f;
-                rb.MovePosition(rb.position + movement * Time.fixedDeltaTime * dashAmount);
+                rb.MovePosition(rb.position + V2 * Time.fixedDeltaTime * dashAmount);
                 dashButtonDown = false;
-                nextAttackTime = Time.time + 1f / attackRate;
+                nextDashTime = Time.time + dashRate;
             }
         }    
 

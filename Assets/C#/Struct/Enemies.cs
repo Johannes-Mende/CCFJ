@@ -8,6 +8,6 @@ public struct Enemies
 {
     public string Name;
     public string Description;
-    public float damage;
+    public int damage;
     public int maxHealth;
 }

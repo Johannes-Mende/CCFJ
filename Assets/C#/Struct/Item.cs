@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public struct Item
 {
     public string Name;
-    public Sprite Image;
+    public Sprite Picture;
     public int Count;
     public string Description;
     public int Rarity;
