@@ -11,11 +11,12 @@ public class GeneratorSpawn : MonoBehaviour
 
     public GameObject genTop, genRight, genBottom, genLeft;
     private bool needTop, needRight, needBottom, needLeft;
+    private bool noTop, noRight, noBottom, noLeft;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     public bool shouldSpawn = true;
 
     private GameObject spawnRoom;
     private int random;
-    //Setze die richtungs bools wieder auf fals momentan können sie nur true werden
+    
     private void Start()
     {
         genMove = this.GetComponent<GeneratorMove>();
@@ -28,9 +29,9 @@ public class GeneratorSpawn : MonoBehaviour
         //Check sides
         CheckSides();
         //Choose Prefab
-        Invoke("ChooseRoom", 0.1f);
+        Invoke("ChooseRoom", 0.01f);
         //Instantiate Prefab
-        Invoke("SpawnRoom", 0.2f);
+        Invoke("SpawnRoom", 0.02f);
     }
     
     void CheckSides()
@@ -46,6 +47,10 @@ public class GeneratorSpawn : MonoBehaviour
             {
                 needTop = true;
             }
+            if (!colTop[0].GetComponent<RoomInfo>().doorBottom)
+            {
+                noTop = true;
+            } //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         }
         if(colRight.Length > 0)
         {

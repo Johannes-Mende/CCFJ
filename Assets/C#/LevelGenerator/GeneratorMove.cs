@@ -8,7 +8,7 @@ public class GeneratorMove : MonoBehaviour
     
     private Transform bodyGen;
 
-    private int unit = 10;
+    public int unit = 10;
     private Vector3 maxTop, maxLeft, maxDown, maxRight;
 
     private bool moveUp, moveLeft, moveDown, moveRight;
@@ -67,7 +67,7 @@ public class GeneratorMove : MonoBehaviour
         if (move)
         {
             bodyGen.position = bodyGen.position + Setdirection();
-            Invoke("CheckMax", 0.1f);
+            Invoke("CheckMax", 0.01f);
             genSpawn.SpawnRoomStart();
         }
     }
