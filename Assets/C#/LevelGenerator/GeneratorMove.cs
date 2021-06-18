@@ -28,11 +28,14 @@ public class GeneratorMove : MonoBehaviour
         {
             move = true;
             MoveGen();
+            print("GenON");
         }
         if (Input.GetKeyDown(KeyCode.H))
         {
-            SetMax();
+            move = false;
+            print("GenOFF");
         }
+
     }
 
     Vector3 Setdirection()
@@ -83,28 +86,24 @@ public class GeneratorMove : MonoBehaviour
     {
         if(bodyGen.position.y >= maxTop.y && moveUp)
         {
-            Debug.Log("MaxTop");
             moveUp = false;
             moveLeft = true;
             maxTop.y = maxTop.y + unit;
         }
         if(bodyGen.position.x <= maxLeft.x && moveLeft)
         {
-            Debug.Log("MaxLeft");
             moveLeft = false;
             moveDown = true;
             maxLeft.x = maxLeft.x - unit;
         }
         if(bodyGen.position.y <= maxDown.y && moveDown)
         {
-            Debug.Log("MaxDown");
             moveDown = false;
             moveRight = true;
             maxDown.y = maxDown.y - unit;
         }
         if(bodyGen.position.x >= maxRight.x && moveRight)
         {
-            Debug.Log("MaxRight");
             moveRight = false;
             moveUp = true;
             maxRight.x = maxRight.x + unit;

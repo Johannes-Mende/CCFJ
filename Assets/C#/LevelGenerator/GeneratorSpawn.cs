@@ -11,7 +11,7 @@ public class GeneratorSpawn : MonoBehaviour
 
     public GameObject genTop, genRight, genBottom, genLeft;
     private bool needTop, needRight, needBottom, needLeft;
-    private bool noTop, noRight, noBottom, noLeft;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    private bool noTop, noRight, noBottom, noLeft;
     public bool shouldSpawn = true;
 
     private GameObject spawnRoom;
@@ -25,7 +25,7 @@ public class GeneratorSpawn : MonoBehaviour
 
     public void SpawnRoomStart()
     {
-        needTop = false; needRight = false; needBottom = false; needLeft = false;
+        needTop = false; needRight = false; needBottom = false; needLeft = false; noTop = false; noRight = false; noBottom = false; noLeft = false;
         //Check sides
         CheckSides();
         //Choose Prefab
@@ -47,16 +47,20 @@ public class GeneratorSpawn : MonoBehaviour
             {
                 needTop = true;
             }
-            if (!colTop[0].GetComponent<RoomInfo>().doorBottom)
+            else if (!colTop[0].GetComponent<RoomInfo>().doorBottom)
             {
                 noTop = true;
-            } //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            }
         }
         if(colRight.Length > 0)
         {
             if (colRight[0].GetComponent<RoomInfo>().doorLeft)
             {
                 needRight = true;
+            }
+            else if (!colRight[0].GetComponent<RoomInfo>().doorLeft)
+            {
+                noRight = true;
             }
         }
         if(colBottom.Length > 0)
@@ -65,6 +69,10 @@ public class GeneratorSpawn : MonoBehaviour
             {
                 needBottom = true;
             }
+            else if (!colBottom[0].GetComponent<RoomInfo>().doorTop)
+            {
+                noBottom = true;
+            }
         } 
         if(colLeft.Length > 0)
         {
@@ -72,70 +80,83 @@ public class GeneratorSpawn : MonoBehaviour
             {
                 needLeft = true;
             }
-
+            else if (!colLeft[0].GetComponent<RoomInfo>().doorRight)
+            {
+                noLeft = true;
+            }
         }
     }
 
     void ChooseRoom()
     {
-        int needTopI = Convert.ToInt32(needTop);
-        int needRightI = Convert.ToInt32(needRight);
-        int needBottomI = Convert.ToInt32(needBottom);
-        int needLeftI = Convert.ToInt32(needLeft);
-        string roomDoorInfo = needTopI.ToString() + needRightI.ToString() + needBottomI.ToString() + needLeftI.ToString();
+        int needTopI = Convert.ToInt32(needTop); int needRightI = Convert.ToInt32(needRight); int needBottomI = Convert.ToInt32(needBottom); int needLeftI = Convert.ToInt32(needLeft);
+        int noTopI = Convert.ToInt32(noTop); int noRightI = Convert.ToInt32(noRight); int noBottomI = Convert.ToInt32(noBottom); int noLeftI = Convert.ToInt32(noLeft);
+        string roomDoorInfo = needTopI.ToString() + needRightI.ToString() + needBottomI.ToString() + needLeftI.ToString() + ":" + noTopI.ToString() + noRightI.ToString() + noBottomI.ToString() + noLeftI.ToString();
 
         switch (roomDoorInfo)// TopRightBottomLeft
         {
-            case "0000":
+            default:
                 shouldSpawn = false;
                 break;
-            case "1000":
-                random = UnityEngine.Random.Range(0, templates.topRooms.Length);
-                spawnRoom = templates.topRooms[random];
-                shouldSpawn = true;
+            case "1000:0000":
+                Rss(templates.topRooms);
                 break;
-            case "0100":
-                random = UnityEngine.Random.Range(0, templates.rightRooms.Length);
-                spawnRoom = templates.rightRooms[random];
-                shouldSpawn = true;
+            case "0100:0000":
+                Rss(templates.rightRooms);
                 break;
-            case "0010":
-                random = UnityEngine.Random.Range(0, templates.bottomRooms.Length);
-                spawnRoom = templates.bottomRooms[random];
-                shouldSpawn = true;
+            case "0010:0000":
+                Rss(templates.bottomRooms);
                 break;
-            case "0001":
-                random = UnityEngine.Random.Range(0, templates.leftRooms.Length);
-                spawnRoom = templates.leftRooms[random];
-                shouldSpawn = true;
+            case "0001:0000":
+                Rss(templates.leftRooms);
                 break;
-            case "1100":
-                random = UnityEngine.Random.Range(0, templates.topRightRooms.Length);
-                spawnRoom = templates.topRightRooms[random];
-                shouldSpawn = true;
+            case "1100:0000":
+                Rss(templates.topRightRooms);
                 break;
-            case "0110":
-                random = UnityEngine.Random.Range(0, templates.rightBottomRooms.Length);
-                spawnRoom = templates.rightBottomRooms[random];
-                shouldSpawn = true;
+            case "0110:0000":
+                Rss(templates.rightBottomRooms);
                 break;
-            case "0011":
-                random = UnityEngine.Random.Range(0, templates.bottomLeftRooms.Length);
-                spawnRoom = templates.bottomLeftRooms[random];
-                shouldSpawn = true;
+            case "0011:0000":
+                Rss(templates.bottomLeftRooms);
                 break;
-            case "1001":
-                random = UnityEngine.Random.Range(0, templates.leftTopRooms.Length);
-                spawnRoom = templates.leftTopRooms[random];
-                shouldSpawn = true;
+            case "1001:0000":
+                Rss(templates.leftTopRooms);
+                break;
+            case "1000:0001":
+                Rss(templates.topRooms);
+                break;
+            case "0100:1000":
+                Rss(templates.rightRooms);
+                break;
+            case "0010:0100":
+                Rss(templates.bottomRooms);
+                break;
+            case "0001:0010":
+                Rss(templates.leftRooms);
+                break;
+            case "0001:1000":
+                Rss(templates.leftNoTopRooms);
+                break;
+            case "1000:0100":
+                Rss(templates.topNoRightRooms);
+                break;
+            case "0100:0010":
+                Rss(templates.rightNoBottomRooms);
+                break;
+            case "0010:0001":
+                Rss(templates.bottomNoLeftRooms);
                 break;
         }
-        print(roomDoorInfo);
+    }
+    void Rss(GameObject[] TempList)
+    {
+        random = UnityEngine.Random.Range(0, TempList.Length);
+        spawnRoom = TempList[random];
+        shouldSpawn = true;
     }
 
     void SpawnRoom()
     {
-        print("SpawnRoom");
         if (shouldSpawn)
         {
             Instantiate(spawnRoom, transform.position, spawnRoom.transform.rotation);
