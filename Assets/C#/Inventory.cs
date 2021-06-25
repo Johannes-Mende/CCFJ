@@ -10,9 +10,6 @@ public class Inventory : MonoBehaviour
     public List<Item> Items = new List<Item>();
     public GameObject ItemPrefab;
 
-    public GameObject InvUI;
-    public bool activeInv;
-
     private void Awake()
     {
         ItemPrefab.SetActive(false);
@@ -31,19 +28,5 @@ public class Inventory : MonoBehaviour
 
         GameManager.access.SA.Saving("Inventory", JsonUtility.ToJson(this));
         Debug.Log(i.Name);
-    }
-
-    public void ToggleInv()
-    {
-        if (activeInv)
-        {
-            InvUI.SetActive(false);
-            activeInv = false;
-        }
-        else
-        {
-            InvUI.SetActive(true);
-            activeInv = true;
-        }
     }
 }

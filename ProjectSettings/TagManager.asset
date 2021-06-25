@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - SpawnPoint
   - Rooms
+  - Grandfather
   layers:
   - Default
   - TransparentFX

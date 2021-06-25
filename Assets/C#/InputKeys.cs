@@ -6,6 +6,7 @@ public class InputKeys : MonoBehaviour
 {
     public float movementX, movementY;
     private int mouseInt;
+    public bool wantInteract;
     void Update()
     {
         movementX = Input.GetAxisRaw("Horizontal");
@@ -29,7 +30,8 @@ public class InputKeys : MonoBehaviour
             switch(Input.inputString.ToUpper())
             {
                 case "E":
-                    // anderes ausführen
+                    // Interact
+                    StartCoroutine(WantInteract());
                     break;
                 case "S":
                     // speicher
@@ -41,9 +43,18 @@ public class InputKeys : MonoBehaviour
                     GameManager.access.GL.SmithCraft();
                     break;
                 case "I":
-                    GameManager.access.GL.INV.ToggleInv();
+                    GameManager.access.UI.ToggleUI(GameManager.access.UI.InvUI);
                     break;
             }
         }
+    }
+
+    private IEnumerator WantInteract()
+    {
+        wantInteract = true;
+
+        yield return new WaitForSeconds(1f);
+
+        wantInteract = false;
     }
 }

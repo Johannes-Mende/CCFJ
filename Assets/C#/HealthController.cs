@@ -17,7 +17,7 @@ public class HealthController : MonoBehaviour
         if (currentHealth <= 0)
         {
             allive = false;
-            Debug.Log("Died");
+            Debug.Log(this+ "Died");
         }
     }
 

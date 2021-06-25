@@ -13,8 +13,9 @@ public class LevelManager : MonoBehaviour
         AsyncLoadingScene(1);
     }
 
-    void ChangeLevel(int scene)
+    public void ChangeLevel(int scene)
     {
+        print("dungeon1");
         SceneManager.LoadScene(scene);
     }
 

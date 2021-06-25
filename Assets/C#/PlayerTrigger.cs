@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class PlayerTrigger : MonoBehaviour
 {
-    private bool isTriggered;
 
     private HealthController HC;
+
+    public GameObject GrandfUI;
 
     private void Start()
     {
@@ -15,26 +16,34 @@ public class PlayerTrigger : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Enemy")
+        switch (other.tag)
         {
-            HC.TakeDamage(other.GetComponent<EnemyController>().Enemies[0].damage);
-        }
+            case"Enemy":
+                HC.TakeDamage(other.GetComponent<EnemyController>().Enemies[0].damage);
+                break;
+            case"Collactable":
 
-        if (other.tag == "Collactable")
-        {
-
-            if (GameManager.access.GL.INV.MaxCountInv > 0 && GameManager.access.GL.INV.MaxCountInv >= other.GetComponent<Holder>().HolderItems[0].Count)
-            {
-                GameManager.access.GL.INV.MaxCountInv -= other.GetComponent<Holder>().HolderItems[0].Count;
-                GameManager.access.GL.INV.Collect(other.GetComponent<Holder>().HolderItems[0]);
-                other.gameObject.SetActive(false);
-            }
-            isTriggered = true;
+                if (GameManager.access.GL.INV.MaxCountInv > 0 && GameManager.access.GL.INV.MaxCountInv >= other.GetComponent<Holder>().HolderItems[0].Count)
+                {
+                    GameManager.access.GL.INV.MaxCountInv -= other.GetComponent<Holder>().HolderItems[0].Count;
+                    GameManager.access.GL.INV.Collect(other.GetComponent<Holder>().HolderItems[0]);
+                    other.gameObject.SetActive(false);
+                }
+                break;
         }
     }
 
-    public void OnTriggerExit2D(Collider2D other)
+    public void OnTriggerStay2D(Collider2D other)
     {
-            isTriggered = false;
+        switch (other.tag)
+        {
+            case "Grandfather":
+                if (GameManager.access.IK.wantInteract)
+                {
+                    GameManager.access.UI.ToggleUI(GameManager.access.UI.GrandfUI);
+                    GameManager.access.IK.wantInteract = false;
+                }
+                break;
+        }
     }
 }

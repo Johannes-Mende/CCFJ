@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     public GameLogic GL;
     public Settings S;
     public Save SA;
+    public UIManager UI;
+    public ItemManager IM;
 
     private void Awake()
     {
